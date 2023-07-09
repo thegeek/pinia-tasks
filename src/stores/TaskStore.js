@@ -14,15 +14,43 @@ export const useTaskStore = defineStore('taskStore', {
       await new Promise((res) => setTimeout(res, 1000));
       this.isLoading = false;
     },
-    addTask(task) {
+    async addTask(task) {
       this.tasks.push(task);
+      try {
+        const res = await axios.post('http://localhost:3000/tasks', JSON.stringify(task), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+      } catch (err) {
+        console.error(err);
+      }
     },
-    deleteTask(task_id) {
+    async deleteTask(task_id) {
       this.tasks = this.tasks.filter(({ id }) => id !== task_id);
+      const task = this.tasks.find(({ id }) => id === task_id);
+      try {
+        const res = await axios.delete(`http://localhost:3000/tasks/${task_id}`);
+      } catch (err) {
+        console.error(err);
+      }
     },
-    toggleFav(task_id) {
+    async toggleFav(task_id) {
       const task = this.tasks.find(({ id }) => id === task_id);
       task.isFav = !task.isFav;
+      try {
+        const res = await axios.patch(
+          `http://localhost:3000/tasks/${task_id}`,
+          JSON.stringify({ isFav: task.isFav }),
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+      } catch (err) {
+        console.error(err);
+      }
     }
   },
   getters: {

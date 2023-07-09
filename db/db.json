@@ -1,0 +1,7 @@
+{
+  "tasks": [
+    { "id": "e6ab1866f62", "title": "buy some milk", "isFav": false },
+    { "id": "ab1866f62ef", "title": "play some music", "isFav": true },
+    { "id": "b1866f62ef7", "title": "walk around", "isFav": false }
+  ]
+}

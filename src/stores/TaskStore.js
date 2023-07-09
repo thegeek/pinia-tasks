@@ -8,6 +8,18 @@ export const useTaskStore = defineStore('taskStore', {
       { id: 3, title: 'walk around', isFav: false }
     ]
   }),
+  actions: {
+    addTask(task) {
+      this.tasks.push(task);
+    },
+    deleteTask(task_id) {
+      this.tasks = this.tasks.filter(({ id }) => id !== task_id);
+    },
+    toggleFav(task_id) {
+      const task = this.tasks.find(({ id }) => id === task_id);
+      task.isFav = !task.isFav;
+    }
+  },
   getters: {
     favs() {
       //   return this.tasks.filter((el) => el.isFav);

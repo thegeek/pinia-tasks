@@ -1,14 +1,19 @@
+import axios from 'axios';
 import { defineStore } from 'pinia';
 
 export const useTaskStore = defineStore('taskStore', {
   state: () => ({
-    tasks: [
-      { id: 1, title: 'buy some milk', isFav: false },
-      { id: 2, title: 'play some music', isFav: true },
-      { id: 3, title: 'walk around', isFav: false }
-    ]
+    tasks: [],
+    isLoading: false
   }),
   actions: {
+    async getTasks() {
+      this.isLoading = true;
+      const res = await axios.get('http://localhost:3000/tasks');
+      this.tasks = res.data;
+      await new Promise((res) => setTimeout(res, 1000));
+      this.isLoading = false;
+    },
     addTask(task) {
       this.tasks.push(task);
     },

@@ -14,8 +14,10 @@
       <button :class="{ selected: filter === 'all' }" @click="filter = 'all'">All Tasks</button>
       <button :class="{ selected: filter === 'favs' }" @click="filter = 'favs'">Fav Tasks</button>
     </nav>
+    <!-- Loading -->
+    <div class="loading" v-if="taskStore.isLoading">Loading Tasks...</div>
     <!-- Task List -->
-    <div class="task-list">
+    <div class="task-list" v-else>
       <p>You have {{ taskList.count }} {{ taskList.type }} left to do</p>
       <div v-for="task in taskList.tasks" :key="task.id">
         <TaskDetails :task="task" />
@@ -31,6 +33,8 @@ import TaskDetails from './components/TaskDetails.vue';
 import TaskForm from './components/TaskForm.vue';
 
 const taskStore = useTaskStore();
+
+taskStore.getTasks();
 
 const filter = ref('all');
 const taskList = computed(() => {
